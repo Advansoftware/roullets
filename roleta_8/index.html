@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Circo Vintage - Variantes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --bg-card: #161b22;
+      --border-color: #30363d;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent: #238636;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    .header {
+      padding: 30px 0 25px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 30px;
+    }
+
+    .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 15px;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      padding-bottom: 50px;
+    }
+
+    .variant-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .variant-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 6px 25px rgba(35, 134, 54, 0.15);
+      color: inherit;
+    }
+
+    .card-preview {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .card-content {
+      padding: 16px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <a href="../" class="back-link">← Voltar para Roletas</a>
+      <h1>Circo Vintage</h1>
+      <p>Escolha uma variante para visualizar a roleta em ação.</p>
+    </header>
+    <div class="card-grid">
+      <a href="variante_1/" class="variant-card">
+        <div class="card-preview" style="background: linear-gradient(135deg, #5d4037, #c0392b, #f1c40f);"><i
+            class="fas fa-ticket-alt" style="font-size:3rem;color:rgba(255,255,255,0.3);"></i><span
+            class="card-badge">Base</span></div>
+        <div class="card-content">
+          <h3 class="card-title">Variante Original</h3>
+          <p class="card-description">Estilo retrô de circo clássico.</p>
+        </div>
+      </a>
+      <a href="variante_natal/" class="variant-card">
+        <div class="card-preview" style="background: linear-gradient(135deg, #c41e3a, #165b33);"><i class="fas fa-tree"
+            style="font-size:3rem;color:rgba(255,255,255,0.3);"></i><span class="card-badge">🎄 Especial</span></div>
+        <div class="card-content">
+          <h3 class="card-title">Tema Natal</h3>
+          <p class="card-description">Vermelho e verde natalino.</p>
+        </div>
+      </a>
+      <a href="variante_ano_novo/" class="variant-card">
+        <div class="card-preview" style="background: linear-gradient(135deg, #4a0080, #ffd700);"><i
+            class="fas fa-champagne-glasses" style="font-size:3rem;color:rgba(255,255,255,0.3);"></i><span
+            class="card-badge">🎆 Especial</span></div>
+        <div class="card-content">
+          <h3 class="card-title">Tema Ano Novo</h3>
+          <p class="card-description">Dourado e prata festivo.</p>
+        </div>
+      </a>
+      <a href="variante_carnaval/" class="variant-card">
+        <div class="card-preview" style="background: linear-gradient(135deg, #9b59b6, #e91e63, #27ae60);"><i
+            class="fas fa-mask" style="font-size:3rem;color:rgba(255,255,255,0.3);"></i><span class="card-badge">🎭
+            Especial</span></div>
+        <div class="card-content">
+          <h3 class="card-title">Tema Carnaval</h3>
+          <p class="card-description">Cores vibrantes e festivas.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>

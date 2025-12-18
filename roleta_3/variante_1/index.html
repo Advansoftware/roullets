@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleta Premiada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app-container">
+    <a href="../" class="back-button"><svg fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>Voltar</a>
+    <div class="header-content">
+      <h1>Roleta Premiada</h1>
+      <div class="giros-badge">VOCÊ POSSUI <span class="count">33</span> GIROS</div>
+    </div>
+
+    <div class="mobile-view-mask">
+      <div class="wheel-container">
+        <div class="wheel-glow"></div>
+        <div class="wheel-frame"></div>
+        <div class="pointer"></div>
+        <button class="wheel-center" aria-label="Girar a roleta">
+          <i class="fas fa-play center-icon"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="toast" role="alert" aria-live="polite"></div>
+
+    <div class="celebration-overlay" id="celebrationOverlay"></div>
+    <div class="prize-popup" id="prizePopup">
+      <div class="prize-icon-wrap"><i class="fas fa-gift gift-icon"></i></div>
+      <p class="prize-title">VOCÊ GANHOU!</p>
+      <p class="prize-value" id="prizeValue"></p>
+      <button class="prize-close" id="prizeClose">RESGATAR</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
