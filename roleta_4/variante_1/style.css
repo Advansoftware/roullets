@@ -160,6 +160,7 @@ body {
 .sector-content i {
   font-size: 1.3rem;
   margin-bottom: 2px;
+  color: #fff;
 }
 
 .sector-content .sector-label {
@@ -167,6 +168,7 @@ body {
   letter-spacing: 0px;
   line-height: 1.2;
   text-transform: uppercase;
+  color: #fff;
 }
 
 /* Center Button - Arcade style */
@@ -429,6 +431,34 @@ body {
   .sector-content .sector-label {
     font-size: 0.45rem;
   }
-}.back-button { position: fixed; top: 20px; left: 20px; background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; font-weight: 600; z-index: 999; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 8px; }
-.back-button:hover { background: rgba(35, 134, 54, 0.8); color: #fff; transform: translateX(-3px); }
-.back-button svg { width: 16px; height: 16px; }
+}
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 999;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-button:hover {
+  background: rgba(35, 134, 54, 0.8);
+  color: #fff;
+  transform: translateX(-3px);
+}
+
+.back-button svg {
+  width: 16px;
+  height: 16px;
+}
