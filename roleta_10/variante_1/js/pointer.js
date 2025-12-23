@@ -37,12 +37,11 @@ function createPointer(scene, config) {
   ball.parent = pointerGroup;
   ball.material = metalMaterial;
 
-  // Triângulo PLANO - PONTA para BAIXO (em direção ao prêmio)
-  // BASE larga em cima (perto do mastro), PONTA fina embaixo
+  // Triângulo PLANO - mais pontudo
   const arrowShape = [
-    new BABYLON.Vector3(0, 0, 0.4),       // Ponta inferior (aponta para o prêmio)
-    new BABYLON.Vector3(-0.25, 0, -0.1),  // Base superior esquerda
-    new BABYLON.Vector3(0.25, 0, -0.1),   // Base superior direita
+    new BABYLON.Vector3(0, 0, -0.5),      // Ponta mais longa (mais pontudo)
+    new BABYLON.Vector3(-0.2, 0, 0.12),   // Base superior esquerda (mais estreita)
+    new BABYLON.Vector3(0.2, 0, 0.12),    // Base superior direita
   ];
 
   const arrow = BABYLON.MeshBuilder.CreatePolygon("arrow", {
@@ -60,9 +59,9 @@ function createPointer(scene, config) {
   arrow.parent = pointerGroup;
   arrow.material = plasticMaterial;
 
-  // Posicionar ponteiro na borda da roleta
+  // Posicionar ponteiro na borda da roleta (um pouco mais para trás)
   const radius = config ? config.radius : 2.5;
-  pointerGroup.position = new BABYLON.Vector3(0, 0.55, -(radius - 0.4));
+  pointerGroup.position = new BABYLON.Vector3(0, 0.55, -(radius + 0.1));
 
   return { pointerGroup, arrow };
 }

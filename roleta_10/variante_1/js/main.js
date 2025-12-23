@@ -79,7 +79,7 @@
   // === CRIAR RODA ===
   const { wheelGroup, tiltGroup, studs, sectorAngle } = window.WheelBuilder.createWheel(scene, prizes, wheelConfig);
   const { pointerGroup, arrow } = window.PointerBuilder.createPointer(scene, wheelConfig);
-  const arrowBaseX = arrow.position.x;  // Guardar posição X original
+  const arrowBaseZ = arrow.position.z;  // Guardar posição Z original
 
   const TAU = Math.PI * 2;
   const normalizeAngle = (angle) => ((angle % TAU) + TAU) % TAU;
@@ -131,18 +131,12 @@
   let giftAnimating = false;
 
   // === FÍSICA DO PONTEIRO ===
-  let pointerAngle = 0;           // Ângulo atual do ponteiro (rotação Z)
-  let pointerVelocity = 0;        // Velocidade angular
-  let pointerX = 0;               // Posição X do ponteiro (balanço horizontal)
-  let pointerXVelocity = 0;       // Velocidade horizontal
-  const pointerRestAngle = 0;     // Posição de descanso angular (sem rotação)
-  const pointerRestX = 0;         // Posição X de descanso
-  const pointerSpringForce = 0.18;  // Força da mola angular
-  const pointerXSpring = 0.15;    // Força da mola horizontal
-  const pointerDamping = 0.82;    // Amortecimento angular
-  const pointerXDamping = 0.85;   // Amortecimento horizontal
-  const tickImpulse = 0.15;       // Impulso angular (rotação Z)
-  const tickXImpulse = 0.06;      // Impulso horizontal (balanço para lado)
+  let pointerZ = 0;               // Posição Z do ponteiro (empurrar para trás)
+  let pointerZVelocity = 0;       // Velocidade no eixo Z
+  const pointerRestZ = 0;         // Posição Z de descanso
+  const pointerZSpring = 0.12;    // Força da mola
+  const pointerZDamping = 0.85;   // Amortecimento
+  const tickZImpulse = 0.08;      // Impulso para trás quando bate no ferro
 
   // === ELEMENTOS UI ===
   const spinBtn = document.getElementById('spinBtn');
@@ -152,35 +146,22 @@
 
   // === FUNÇÕES ===
   function tickPointer() {
-    // Aplica impulso ao ponteiro (rotação + balanço horizontal)
-    const direction = Math.random() > 0.5 ? 1 : -1;  // Direção aleatória
-    pointerVelocity += tickImpulse * (1 + Math.random() * 0.3) * direction;
-    pointerXVelocity += tickXImpulse * (1 + Math.random() * 0.3) * direction;
+    // Empurra ponteiro para TRÁS (Z negativo) quando bate no divisor
+    pointerZVelocity -= tickZImpulse * (1 + Math.random() * 0.3);
   }
 
   function updatePointerPhysics() {
-    // Física de mola para ROTAÇÃO Z (balanço angular)
-    const angularDisplacement = pointerRestAngle - pointerAngle;
-    pointerVelocity += angularDisplacement * pointerSpringForce;
-    pointerVelocity *= pointerDamping;
-    pointerAngle += pointerVelocity;
+    // Física de mola para POSIÇÃO Z (empurrar para trás e voltar)
+    const zDisplacement = pointerRestZ - pointerZ;
+    pointerZVelocity += zDisplacement * pointerZSpring;
+    pointerZVelocity *= pointerZDamping;
+    pointerZ += pointerZVelocity;
 
-    // Física de mola para POSIÇÃO X (balanço horizontal)
-    const xDisplacement = pointerRestX - pointerX;
-    pointerXVelocity += xDisplacement * pointerXSpring;
-    pointerXVelocity *= pointerXDamping;
-    pointerX += pointerXVelocity;
-
-    // Limitar ângulo máximo
-    const maxDeflection = 0.3;
-    pointerAngle = Math.max(-maxDeflection, Math.min(maxDeflection, pointerAngle));
-
-    // Limitar balanço horizontal máximo
-    pointerX = Math.max(-0.1, Math.min(0.1, pointerX));
+    // Limitar movimento máximo (só para trás)
+    pointerZ = Math.max(-0.15, Math.min(0, pointerZ));
 
     // Aplicar ao ponteiro
-    arrow.rotation.z = pointerAngle;  // Rotação no eixo Z (balanço)
-    arrow.position.x = arrowBaseX + pointerX;  // Balanço horizontal
+    arrow.position.z = arrowBaseZ + pointerZ;  // Empurrar para trás
   }
 
   function showPrize(label) {
