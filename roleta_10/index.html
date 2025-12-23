@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleta 10 - Babylon.js 3D | Variantes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #0c0c1d 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .header {
+      padding: 2rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #00d4ff, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #00d4ff;
+      text-decoration: none;
+      margin-bottom: 1rem;
+      transition: color 0.3s;
+    }
+
+    .back-link:hover {
+      color: #a855f7;
+    }
+
+    .variants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .variant-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .variant-card:hover {
+      transform: translateY(-5px);
+      border-color: #00d4ff;
+      box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+    }
+
+    .card-preview {
+      height: 200px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-preview::before {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.4), transparent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+      }
+    }
+
+    .card-info {
+      padding: 1.5rem;
+    }
+
+    .card-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #00d4ff;
+    }
+
+    .card-info p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: linear-gradient(135deg, #00d4ff, #a855f7);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <a href="../" class="back-link">← Voltar para Galeria</a>
+    <h1>🎮 Roleta 10 - Babylon.js</h1>
+    <p>Roleta 3D construída com Babylon.js - Engine 3D da Microsoft</p>
+  </div>
+
+  <div class="variants-grid">
+    <a href="variante_1/" class="variant-card">
+      <div class="card-preview">🎰</div>
+      <div class="card-info">
+        <span class="badge">Babylon.js</span>
+        <h3>Variante 1 - Premium</h3>
+        <p>Roda da fortuna 3D com efeitos PBR, iluminação avançada e partículas.</p>
+      </div>
+    </a>
+  </div>
+</body>
+
+</html>

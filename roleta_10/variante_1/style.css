@@ -1,0 +1,273 @@
+/* Roleta 10 - Babylon.js 3D Premium */
+/* Tema: Cyan/Purple Neon */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #0a0a1a 0%, #0f0f2a 50%, #151530 100%);
+  min-height: 100vh;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* === EFEITOS DE FUNDO === */
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+}
+
+.glow-1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #00d4ff 0%, transparent 70%);
+  top: -100px;
+  left: -100px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.glow-2 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, #a855f7 0%, transparent 70%);
+  bottom: -100px;
+  right: -100px;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(30px, 30px) scale(1.1);
+  }
+}
+
+/* === HEADER === */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  z-index: 100;
+}
+
+.back-link {
+  color: #00d4ff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.back-link:hover {
+  color: #a855f7;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #00d4ff, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === CANVAS CONTAINER === */
+#canvas-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+#renderCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* === BOTÃO DE GIRAR === */
+.spin-button {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 3rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow:
+    0 4px 20px rgba(0, 212, 255, 0.4),
+    0 0 40px rgba(0, 212, 255, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.spin-button:hover:not(:disabled) {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow:
+    0 6px 30px rgba(0, 212, 255, 0.5),
+    0 0 60px rgba(0, 212, 255, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.spin-button:active:not(:disabled) {
+  transform: translateX(-50%) scale(0.98);
+}
+
+.spin-button:disabled {
+  background: linear-gradient(135deg, #4a4a5a, #3a3a4a);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* === MODAL DE PRÊMIO === */
+.prize-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.prize-popup.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-content {
+  background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+  border: 2px solid rgba(0, 212, 255, 0.3);
+  border-radius: 24px;
+  padding: 2.5rem;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  transform: scale(0.8);
+  transition: transform 0.4s ease;
+  box-shadow:
+    0 0 60px rgba(0, 212, 255, 0.3),
+    inset 0 0 40px rgba(0, 212, 255, 0.05);
+}
+
+.prize-popup.show .popup-content {
+  transform: scale(1);
+}
+
+.popup-content #giftCanvas {
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+.popup-content h2 {
+  font-size: 2rem;
+  background: linear-gradient(135deg, #00d4ff, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.popup-content p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+}
+
+.prize-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #00d4ff;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  margin-bottom: 1.5rem;
+}
+
+.close-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+}
+
+.close-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(168, 85, 247, 0.5);
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 768px) {
+  .header {
+    padding: 0.75rem 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.2rem;
+  }
+
+  .spin-button {
+    padding: 0.875rem 2.5rem;
+    font-size: 1.25rem;
+    bottom: 1.5rem;
+  }
+
+  .popup-content {
+    padding: 1.5rem;
+  }
+
+  .popup-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .prize-value {
+    font-size: 2rem;
+  }
+}

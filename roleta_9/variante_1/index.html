@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleta 3D - Three.js</title>
+  <meta name="description" content="Roleta 3D interativa com prêmios usando Three.js">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Botão Voltar -->
+  <a href="../" class="back-button">
+    <svg fill="currentColor" viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+    </svg>
+    Voltar
+  </a>
+
+  <!-- Header -->
+  <div class="overlay">
+    <header class="header">
+      <h1>🎰 ROLETA 3D PREMIADA</h1>
+      <div class="giros-badge">Você possui <strong>33</strong> giros</div>
+    </header>
+  </div>
+
+  <!-- Canvas 3D -->
+  <div id="canvas-container"></div>
+
+  <!-- Botão Girar -->
+  <button id="spinBtn" class="spin-button">🎲 GIRAR</button>
+
+  <!-- Popup de Prêmio -->
+  <div id="prizePopup" class="prize-popup">
+    <canvas id="giftCanvas" width="120" height="120"></canvas>
+    <p class="prize-title">VOCÊ GANHOU!</p>
+    <p id="prizeValue" class="prize-value">R$ 100</p>
+    <button id="closePopup" class="close-btn">CONTINUAR</button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/wheel.js"></script>
+  <script src="js/gift.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
