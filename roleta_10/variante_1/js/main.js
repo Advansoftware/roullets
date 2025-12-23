@@ -190,8 +190,8 @@
   let bounceVelocity = 0;
 
   // O ponteiro está no topo da roleta (Z negativo)
-  // Calcular setor baseado na rotação da roda - SIMPLES
-  const POINTER_OFFSET = 0;  // Ajustar se necessário para alinhar
+  // Calcular setor baseado na rotação da roda
+  const POINTER_OFFSET = 4;  // Ajuste para alinhar ponteiro com setor correto
 
   function getCurrentSectorIndex() {
     // Normalizar rotação para 0-2PI
@@ -229,28 +229,39 @@
       currentRotation += velocity;
       wheelGroup.rotation.y = currentRotation;
 
-      // Verificar se velocidade está baixa o suficiente para snap
-      if (velocity < 0.02) {
+      // Verificar se velocidade está muito baixa (quase parando)
+      if (velocity < 0.05) {
         isSpinning = false;
         isSnapping = true;
 
         // Calcular snap target para centro do setor atual
         snapTarget = getSnapRotationForCurrentSector();
 
-        // Iniciar bounce com momentum restante
-        bounceVelocity = velocity * 0.5;
+        // Iniciar bounce (overshoot) simulando "falta de força"
+        // Velocidade inicial do snap pequena para parecer que está morrendo
+        bounceVelocity = Math.max(velocity, 0.03);
       }
     } else if (isSnapping) {
-      // Animação de snap com bounce para o centro (mais lenta e realista)
       const diff = snapTarget - currentRotation;
 
-      if (Math.abs(diff) > 0.0005) {
-        // Spring physics mais suave - força menor, damping maior
-        const springForce = diff * 0.05;  // Força mais fraca (era 0.15)
+      // Se ainda tem velocidade ou está longe do centro
+      if (Math.abs(diff) > 0.0005 || Math.abs(bounceVelocity) > 0.0005) {
+        // Mola MUITO suave para parecer pesado
+        // A força da mola "puxa" de volta para o centro
+        // Se bounceVelocity > 0 (indo pra frente), a mola vai freando
+        // Se bounceVelocity < 0 (voltando), a mola vai acelerando pro centro
+
+        const springForce = diff * 0.02;  // Mola fraca = movimento pesado
         bounceVelocity += springForce;
-        bounceVelocity *= 0.92; // Damping mais suave (era 0.85)
+        bounceVelocity *= 0.98; // Pouco atrito para manter o balanço lento
 
         currentRotation += bounceVelocity;
+
+        // Proteção suave para não sair do setor
+        if (Math.abs(diff) > sectorAngle * 0.48) {
+          bounceVelocity *= 0.8; // Freia se chegar muito perto da borda
+        }
+
         wheelGroup.rotation.y = currentRotation;
       } else {
         // Snap completo
