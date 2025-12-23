@@ -193,7 +193,7 @@
 
   // O ponteiro está no topo da roleta (Z negativo)
   // Calcular setor baseado na rotação da roda
-  const POINTER_OFFSET = 4;  // Ajuste para alinhar ponteiro com setor correto
+  const POINTER_OFFSET = 6;  // Ajuste final para alinhar (Visual PONTOS -> Logic PONTOS)
 
   function getCurrentSectorIndex() {
     // Normalizar rotação para 0-2PI
