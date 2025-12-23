@@ -298,6 +298,13 @@
       // Rotação lenta em idle (apenas se não ganhou prêmio)
       wheelGroup.rotation.y += animConfig.idleSpeed;
       currentRotation = wheelGroup.rotation.y;
+
+      // Efeito tick também no idle - cada vez que passa por um divisor
+      const currentSector = getCurrentSectorIndex();
+      if (currentSector !== lastSector) {
+        tickPointer();
+        lastSector = currentSector;
+      }
     }
 
     // Animação das luzes (efeito marquee)
