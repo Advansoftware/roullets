@@ -146,6 +146,116 @@
       height: 16px;
     }
 
+    /* Seção de Variantes Selecionadas */
+    .selected-section {
+      margin-bottom: 50px;
+    }
+
+    .selected-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .selected-section h2::before {
+      content: '⭐';
+      font-size: 1.3rem;
+    }
+
+    .selected-section .section-description {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .selected-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .selected-card {
+      background: var(--bg-card);
+      border: 2px solid #f7931a;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      box-shadow: 0 0 15px rgba(247, 147, 26, 0.3);
+    }
+
+    .selected-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(247, 147, 26, 0.25);
+    }
+
+    .selected-card .card-image {
+      height: 180px;
+    }
+
+    .selected-card .selected-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: linear-gradient(135deg, #f7931a, #ffcc00);
+      color: #000;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .selected-card .selected-badge svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .selected-card .card-content {
+      padding: 18px 20px;
+    }
+
+    .selected-card .card-title {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .selected-card .variant-info {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .selected-card .card-footer {
+      background: transparent;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 0 0 40px 0;
+    }
+
+    .all-roulettes-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--text-secondary);
+    }
+
     @media (max-width: 768px) {
       .header {
         padding: 30px 0 20px;
@@ -158,6 +268,15 @@
       .card-grid {
         gap: 16px;
       }
+
+      .selected-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .selected-section h2 {
+        font-size: 1.25rem;
+      }
     }
   </style>
 </head>
@@ -169,6 +288,101 @@
       <p>Escolha uma das roletas abaixo para visualizar as variantes disponíveis. Esta é uma página de protótipos para
         você selecionar o design ideal.</p>
     </header>
+
+    <!-- Seção de Variantes Selecionadas -->
+    <section class="selected-section">
+      <h2>Variantes Selecionadas</h2>
+      <p class="section-description">As variantes escolhidas para o projeto. Clique para visualizar cada uma delas.</p>
+
+      <div class="selected-grid">
+        <!-- Roleta 1 - Variante 5 -->
+        <a href="roleta_1/variante_5/" class="selected-card">
+          <div class="card-image" style="background-image: url('images/roleta_1.png')">
+            <span class="card-badge">Original</span>
+            <span class="selected-badge">
+              <svg fill="currentColor" viewBox="0 0 16 16">
+                <path
+                  d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+              </svg>
+              Selecionada
+            </span>
+          </div>
+          <div class="card-content">
+            <span class="variant-info">Roleta 1 › Variante 5</span>
+            <h3 class="card-title">Elegante Roxo & Dourado</h3>
+            <p class="card-description">Design clássico com tons de roxo e dourado, perfeito para campanhas premium.</p>
+          </div>
+          <div class="card-footer">
+            <span class="variants-count">
+              <svg fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM2 8a6 6 0 1 0 12 0A6 6 0 0 0 2 8z" />
+              </svg>
+              Variante 5
+            </span>
+            <span>Visualizar →</span>
+          </div>
+        </a>
+
+        <!-- Roleta 1 - Variante 2 -->
+        <a href="roleta_1/variante_2/" class="selected-card">
+          <div class="card-image" style="background-image: url('images/roleta_1.png')">
+            <span class="card-badge">Original</span>
+            <span class="selected-badge">
+              <svg fill="currentColor" viewBox="0 0 16 16">
+                <path
+                  d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+              </svg>
+              Selecionada
+            </span>
+          </div>
+          <div class="card-content">
+            <span class="variant-info">Roleta 1 › Variante 2</span>
+            <h3 class="card-title">Elegante Roxo & Dourado</h3>
+            <p class="card-description">Design clássico com tons de roxo e dourado, perfeito para campanhas premium.</p>
+          </div>
+          <div class="card-footer">
+            <span class="variants-count">
+              <svg fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM2 8a6 6 0 1 0 12 0A6 6 0 0 0 2 8z" />
+              </svg>
+              Variante 2
+            </span>
+            <span>Visualizar →</span>
+          </div>
+        </a>
+
+        <!-- Roleta 2 - Variante 1 -->
+        <a href="roleta_2/variante_1/" class="selected-card">
+          <div class="card-image" style="background-image: url('images/roleta_2.png')">
+            <span class="card-badge">Cassino</span>
+            <span class="selected-badge">
+              <svg fill="currentColor" viewBox="0 0 16 16">
+                <path
+                  d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+              </svg>
+              Selecionada
+            </span>
+          </div>
+          <div class="card-content">
+            <span class="variant-info">Roleta 2 › Variante 1</span>
+            <h3 class="card-title">Casino Vegas Clássico</h3>
+            <p class="card-description">Tema de cassino tradicional com feltro verde e detalhes em dourado.</p>
+          </div>
+          <div class="card-footer">
+            <span class="variants-count">
+              <svg fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM2 8a6 6 0 1 0 12 0A6 6 0 0 0 2 8z" />
+              </svg>
+              Variante 1
+            </span>
+            <span>Visualizar →</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <hr class="divider">
+    <h3 class="all-roulettes-title">Todas as Roletas</h3>
 
     <div class="card-grid">
       <a href="roleta_1/" class="roulette-card">
