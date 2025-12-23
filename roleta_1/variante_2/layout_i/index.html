@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta Premiada</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome para Icones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+    <a href="../" class="back-button"><svg fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>Voltar</a>
+
+        <div class="header-content">
+            <h1>Roleta Premiada</h1>
+            <div class="giros-badge">VOCÊ POSSUI <strong>33 GIROS</strong></div>
+        </div>
+
+        <!-- Mascara para visualização Mobile (Corta a metade de baixo) -->
+        <!-- No desktop, essa div nao faz nada (display contents ou similar), ou a logica CSS esconde ela e mostra o wheel-container direto -->
+        <!-- Pela nossa logica CSS: .mobile-view-mask é display:block no mobile e contem a roleta. -->
+        <!-- No desktop, vamos ter que duplicar ou mover via JS? Nao, CSS resolve. -->
+        <!-- Solução: Ter a estrutura unica, e o CSS muda o tamanho/corte do PAI. -->
+
+        <div class="mobile-view-mask">
+            <!-- A Roleta em si -->
+            <div class="wheel-container">
+                <div class="wheel-lights"></div>
+                <div class="pointer"></div>
+                <div class="wheel-frame">
+                    <!-- Setores gerados via JS -->
+                </div>
+                <button class="wheel-center" aria-label="Girar a roleta">
+                    <span class="center-text">GIRAR</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+        <!-- Overlay de celebração -->
+        <div class="celebration-overlay" id="celebrationOverlay"></div>
+        
+        <!-- Popup do prêmio -->
+        <div class="prize-popup" id="prizePopup">
+            <i class="fas fa-gift gift-icon"></i>
+            <p class="prize-title">Você ganhou!</p>
+            <p class="prize-value" id="prizeValue"></p>
+            <button class="prize-close" id="prizeClose">RESGATAR</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

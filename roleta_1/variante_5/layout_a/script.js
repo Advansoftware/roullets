@@ -1,12 +1,12 @@
 const prizes = [
-  { label: "1000", icon: "fa-coins", color: "#eab308", textColor: "#fff" },         // HIGHLIGHT (Gold) - Only special
-  { label: "SURPRESA", icon: "fa-gift", color: "#9a3412", textColor: "#fff" },      // COLOR A (Terracotta)
-  { label: "PONTOS", icon: "fa-star", color: "#0f766e", textColor: "#fff" },        // COLOR B (Teal)
-  { label: "50", icon: "fa-gem", color: "#9a3412", textColor: "#fff" },             // COLOR A (Terracotta)
-  { label: "BRINDE", icon: "fa-gift", color: "#0f766e", textColor: "#fff" },        // COLOR B (Teal)
-  { label: "100", icon: "fa-trophy", color: "#9a3412", textColor: "#fff" },         // COLOR A (Terracotta)
-  { label: "BÔNUS", icon: "fa-dice", color: "#0f766e", textColor: "#fff" },         // COLOR B (Teal)
-  { label: "500MM", icon: "fa-award", color: "#9a3412", textColor: "#fff" }         // COLOR A (Terracotta)
+  { label: "RECOMPENSA", icon: "fa-coins", color: "#eab308", textColor: "#fff" },
+  { label: "SURPRESA", icon: "fa-gift", color: "#9a3412", textColor: "#fff" },
+  { label: "PONTOS", icon: "fa-star", color: "#0f766e", textColor: "#fff" },
+  { label: "R$ 50", icon: "fa-gem", color: "#9a3412", textColor: "#fff" },
+  { label: "BRINDE VIP", icon: "fa-gift", color: "#0f766e", textColor: "#fff" },
+  { label: "100 MOEDAS", icon: "fa-trophy", color: "#9a3412", textColor: "#fff" },
+  { label: "BÔNUS", icon: "fa-dice", color: "#0f766e", textColor: "#fff" },
+  { label: "GIRO FREE", icon: "fa-award", color: "#9a3412", textColor: "#fff" }
 ];
 
 const wheelFrame = document.querySelector('.wheel-frame');

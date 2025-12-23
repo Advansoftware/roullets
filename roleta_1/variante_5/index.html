@@ -1,63 +1,595 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roleta Premiada</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome para Icones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleta 1 - Variante 5 | Layouts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --bg-card: #161b22;
+      --border-color: #30363d;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent: #238636;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 999;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-button:hover {
+      background: rgba(35, 134, 54, 0.8);
+      color: #fff;
+    }
+
+    .back-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .header {
+      padding: 80px 0 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin: 30px auto 15px;
+      max-width: 1200px;
+      padding: 0 20px;
+    }
+
+    .layouts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      padding: 0 20px 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .layout-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .layout-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 6px 20px rgba(35, 134, 54, 0.15);
+      color: inherit;
+    }
+
+    .card-preview {
+      height: 90px;
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .preview-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .preview-box.vertical {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .preview-box.vertical-reverse {
+      flex-direction: column-reverse;
+      gap: 4px;
+    }
+
+    .preview-box.horizontal {
+      flex-direction: row;
+    }
+
+    .preview-box.horizontal-reverse {
+      flex-direction: row-reverse;
+    }
+
+    .preview-box .icon {
+      font-size: 1.4rem;
+    }
+
+    .preview-box .text {
+      font-size: 0.8rem;
+    }
+
+    .preview-box.icon-behind {
+      position: relative;
+    }
+
+    .preview-box.icon-behind .icon {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.25;
+    }
+
+    .preview-box.icon-behind .text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .preview-box.text-only .icon {
+      display: none;
+    }
+
+    .preview-box.text-only .text {
+      font-size: 1.1rem;
+    }
+
+    .preview-box.icon-only .text {
+      display: none;
+    }
+
+    .preview-box.icon-only .icon {
+      font-size: 1.8rem;
+    }
+
+    .preview-box.small-icon .icon {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .preview-box.small-icon .text {
+      font-size: 1rem;
+    }
+
+    .preview-box.big-text .text {
+      font-size: 1.2rem;
+    }
+
+    .preview-box.extra-big .text {
+      font-size: 1.4rem;
+    }
+
+    .card-header {
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .card-size {
+      font-size: 0.65rem;
+      background: rgba(35, 134, 54, 0.2);
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .card-body {
+      padding: 8px 12px 12px;
+    }
+
+    .card-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .spec-tag {
+      font-size: 0.65rem;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--text-secondary);
+    }
+
+    .spec-tag.highlight {
+      background: rgba(234, 179, 8, 0.15);
+      color: #eab308;
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .card-footer {
+      padding: 8px 12px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 70px 20px 15px;
+      }
+
+      .header h1 {
+        font-size: 1.4rem;
+      }
+
+      .layouts-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .card-preview {
+        height: 70px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <a href="../../" class="back-button">
+    <svg fill="currentColor" viewBox="0 0 16 16">
+      <path fill-rule="evenodd"
+        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+    </svg>
+    Voltar
+  </a>
 
-    <div class="app-container">
-    <a href="../" class="back-button"><svg fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/></svg>Voltar</a>
+  <div class="container-fluid">
+    <header class="header">
+      <h1>Roleta 1 - Variante 5</h1>
+      <p>Compare diferentes tamanhos e posições para encontrar a melhor legibilidade.</p>
+    </header>
 
-        <div class="header-content">
-            <h1>Roleta Premiada</h1>
-            <div class="giros-badge">VOCÊ POSSUI <strong>33 GIROS</strong></div>
+    <h3 class="section-title">📐 Tamanho Padrão (340px)</h3>
+    <div class="layouts-grid">
+      <a href="original/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box vertical">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
         </div>
-
-        <!-- Mascara para visualização Mobile (Corta a metade de baixo) -->
-        <!-- No desktop, essa div nao faz nada (display contents ou similar), ou a logica CSS esconde ela e mostra o wheel-container direto -->
-        <!-- Pela nossa logica CSS: .mobile-view-mask é display:block no mobile e contem a roleta. -->
-        <!-- No desktop, vamos ter que duplicar ou mover via JS? Nao, CSS resolve. -->
-        <!-- Solução: Ter a estrutura unica, e o CSS muda o tamanho/corte do PAI. -->
-
-        <div class="mobile-view-mask">
-            <!-- A Roleta em si -->
-            <div class="wheel-container">
-                <div class="wheel-lights"></div>
-                <div class="pointer"></div>
-                <div class="wheel-frame">
-                    <!-- Setores gerados via JS -->
-                </div>
-                <button class="wheel-center" aria-label="Girar a roleta">
-                    <span class="center-text">GIRAR</span>
-                </button>
-            </div>
+        <div class="card-header">
+          <h3 class="card-title">Original</h3>
+          <span class="card-size">340px</span>
         </div>
-
-        <div class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
-
-        <!-- Overlay de celebração -->
-        <div class="celebration-overlay" id="celebrationOverlay"></div>
-        
-        <!-- Popup do prêmio -->
-        <div class="prize-popup" id="prizePopup">
-            <i class="fas fa-gift gift-icon"></i>
-            <p class="prize-title">Você ganhou!</p>
-            <p class="prize-value" id="prizeValue"></p>
-            <button class="prize-close" id="prizeClose">RESGATAR</button>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag">Ícone + Texto</span>
+            <span class="spec-tag">Vertical</span>
+          </div>
+          <p class="card-description">Layout padrão com ícone em cima e texto embaixo.</p>
         </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
 
+      <a href="layout_a/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box vertical-reverse">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout A</h3>
+          <span class="card-size">340px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag">Texto + Ícone</span>
+            <span class="spec-tag">Invertido</span>
+          </div>
+          <p class="card-description">Texto em cima, ícone embaixo.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+
+      <a href="layout_b/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box horizontal">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout B</h3>
+          <span class="card-size">340px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag">Ícone ← Texto</span>
+            <span class="spec-tag">Horizontal</span>
+          </div>
+          <p class="card-description">Ícone à esquerda, texto à direita.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+
+      <a href="layout_c/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box horizontal-reverse">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout C</h3>
+          <span class="card-size">340px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag">Texto → Ícone</span>
+            <span class="spec-tag">Horizontal</span>
+          </div>
+          <p class="card-description">Texto à esquerda, ícone à direita.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+
+      <a href="layout_d/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box text-only vertical">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout D</h3>
+          <span class="card-size">340px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag highlight">Só Texto</span>
+            <span class="spec-tag">Sem Ícone</span>
+          </div>
+          <p class="card-description">Apenas texto, sem ícone.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+
+      <a href="layout_e/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box icon-only vertical">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout E</h3>
+          <span class="card-size">340px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag highlight">Só Ícone</span>
+            <span class="spec-tag">Sem Texto</span>
+          </div>
+          <p class="card-description">Apenas ícone grande.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
     </div>
 
-    <script src="script.js"></script>
+    <h3 class="section-title">📏 Tamanho Médio (400-450px)</h3>
+    <div class="layouts-grid">
+      <a href="layout_f/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box icon-behind vertical">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout F</h3>
+          <span class="card-size">450px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag highlight">Ícone atrás</span>
+            <span class="spec-tag">Texto destaque</span>
+          </div>
+          <p class="card-description">Ícone como fundo, texto em primeiro plano.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+
+      <a href="layout_g/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box small-icon vertical">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout G</h3>
+          <span class="card-size">400px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag">Ícone pequeno</span>
+            <span class="spec-tag highlight">Texto grande</span>
+          </div>
+          <p class="card-description">Ícone discreto, texto em destaque.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+
+      <a href="layout_h/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box horizontal">
+            <span class="icon" style="font-size: 1rem;">🎁</span>
+            <span class="text" style="font-size: 0.7rem;">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout H</h3>
+          <span class="card-size">400px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag">Compacto</span>
+            <span class="spec-tag">Horizontal</span>
+          </div>
+          <p class="card-description">Layout compacto horizontal.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+    </div>
+
+    <h3 class="section-title">🔍 Tamanho Grande (450px)</h3>
+    <div class="layouts-grid">
+      <a href="layout_i/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box vertical">
+            <span class="icon" style="font-size: 1.6rem;">🎁</span>
+            <span class="text" style="font-size: 0.9rem;">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout I</h3>
+          <span class="card-size">450px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag">Ícone + Texto</span>
+            <span class="spec-tag">Vertical</span>
+          </div>
+          <p class="card-description">Layout padrão em roleta maior.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+
+      <a href="layout_j/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box text-only big-text vertical">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout J</h3>
+          <span class="card-size">450px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag highlight">Só Texto</span>
+            <span class="spec-tag">1.3rem</span>
+          </div>
+          <p class="card-description">Texto grande sem ícone.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+    </div>
+
+    <h3 class="section-title">🎯 Tamanho Extra Grande (500px)</h3>
+    <div class="layouts-grid">
+      <a href="layout_k/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box vertical">
+            <span class="icon" style="font-size: 2rem;">🎁</span>
+            <span class="text" style="font-size: 1rem;">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout K</h3>
+          <span class="card-size">500px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag highlight">Ícone 2rem</span>
+            <span class="spec-tag">Texto 1.1rem</span>
+          </div>
+          <p class="card-description">Ícone e texto grandes.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+
+      <a href="layout_l/" class="layout-card">
+        <div class="card-preview">
+          <div class="preview-box text-only extra-big vertical">
+            <span class="icon">🎁</span>
+            <span class="text">R$ 50</span>
+          </div>
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Layout L</h3>
+          <span class="card-size">500px</span>
+        </div>
+        <div class="card-body">
+          <div class="card-specs">
+            <span class="spec-tag highlight">Só Texto</span>
+            <span class="spec-tag">1.5rem</span>
+          </div>
+          <p class="card-description">Texto extra grande para máxima legibilidade.</p>
+        </div>
+        <div class="card-footer">Visualizar →</div>
+      </a>
+    </div>
+  </div>
 </body>
 
 </html>
