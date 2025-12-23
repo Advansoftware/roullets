@@ -4,158 +4,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roleta 10 - Babylon.js 3D | Variantes</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Roleta Babylon.js - Variantes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --bg-dark: #0d1117;
+      --bg-card: #161b22;
+      --border-color: #30363d;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent: #00d4ff;
     }
 
     body {
       font-family: 'Outfit', sans-serif;
-      background: linear-gradient(135deg, #0c0c1d 0%, #1a1a2e 50%, #16213e 100%);
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
       min-height: 100vh;
-      color: #fff;
     }
 
     .header {
-      padding: 2rem;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.3);
-      border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      background: linear-gradient(135deg, #00d4ff, #a855f7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.5rem;
-    }
-
-    .header p {
-      color: rgba(255, 255, 255, 0.7);
+      padding: 30px 0 25px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 30px;
     }
 
     .back-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      color: #00d4ff;
-      text-decoration: none;
-      margin-bottom: 1rem;
-      transition: color 0.3s;
+      gap: 6px;
+      margin-bottom: 15px;
     }
 
     .back-link:hover {
-      color: #a855f7;
+      color: var(--accent);
     }
 
-    .variants-grid {
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      padding-bottom: 50px;
     }
 
     .variant-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(0, 212, 255, 0.2);
-      border-radius: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
       overflow: hidden;
       transition: all 0.3s ease;
+      cursor: pointer;
       text-decoration: none;
       color: inherit;
+      display: block;
     }
 
     .variant-card:hover {
-      transform: translateY(-5px);
-      border-color: #00d4ff;
-      box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 6px 25px rgba(0, 212, 255, 0.15);
+      color: inherit;
     }
 
     .card-preview {
-      height: 200px;
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(135deg, #0a0a1a, #16213e);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 4rem;
       position: relative;
-      overflow: hidden;
     }
 
-    .card-preview::before {
-      content: '';
+    .card-preview i {
+      font-size: 3rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .card-badge {
       position: absolute;
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, rgba(0, 212, 255, 0.4), transparent);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-        opacity: 0.5;
-      }
-
-      50% {
-        transform: scale(1.5);
-        opacity: 0.8;
-      }
-    }
-
-    .card-info {
-      padding: 1.5rem;
-    }
-
-    .card-info h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-      color: #00d4ff;
-    }
-
-    .card-info p {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.9rem;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      background: linear-gradient(135deg, #00d4ff, #a855f7);
-      border-radius: 20px;
-      font-size: 0.75rem;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
+    }
+
+    .card-content {
+      padding: 16px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin: 0;
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-  <div class="header">
-    <a href="../" class="back-link">← Voltar para Galeria</a>
-    <h1>🎮 Roleta 10 - Babylon.js</h1>
-    <p>Roleta 3D construída com Babylon.js - Engine 3D da Microsoft</p>
-  </div>
+  <div class="container">
+    <header class="header">
+      <a href="../" class="back-link">← Voltar para Roletas</a>
+      <h1>Roleta Babylon.js</h1>
+      <p>Desenvolvimento 3D avançado com Babylon.js.</p>
+    </header>
 
-  <div class="variants-grid">
-    <a href="variante_1/" class="variant-card">
-      <div class="card-preview">🎰</div>
-      <div class="card-info">
-        <span class="badge">Babylon.js</span>
-        <h3>Variante 1 - Premium</h3>
-        <p>Roda da fortuna 3D com efeitos PBR, iluminação avançada e partículas.</p>
-      </div>
-    </a>
+    <div class="card-grid">
+      <a href="variante_1/" class="variant-card">
+        <div class="card-preview" style="background: linear-gradient(135deg, #16213e, #00d4ff);">
+          <i class="fas fa-cube"></i>
+          <span class="card-badge">3D Premium</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Variante 1 - Premium</h3>
+          <p class="card-description">Roda da fortuna 3D com efeitos PBR, iluminação avançada e partículas.</p>
+        </div>
+      </a>
+    </div>
   </div>
 </body>
 
