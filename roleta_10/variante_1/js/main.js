@@ -78,7 +78,20 @@
 
   // === CRIAR RODA ===
   const { wheelGroup, tiltGroup, studs, sectorAngle } = window.WheelBuilder.createWheel(scene, prizes, wheelConfig);
-  const { pointerGroup, arrow } = window.WheelBuilder.createPointer(scene, wheelConfig);
+  const { pointerGroup, arrow } = window.PointerBuilder.createPointer(scene, wheelConfig);
+  const arrowBaseX = arrow.position.x;  // Guardar posição X original
+
+  const TAU = Math.PI * 2;
+  const normalizeAngle = (angle) => ((angle % TAU) + TAU) % TAU;
+
+  function getPointerAngleWheelSpace() {
+    // Alinha cálculo do ângulo com a inclinação da roda (tiltGroup).
+    tiltGroup.computeWorldMatrix(true);
+    pointerGroup.computeWorldMatrix(true);
+    const invTiltWorld = BABYLON.Matrix.Invert(tiltGroup.getWorldMatrix());
+    const pointerPosInTilt = BABYLON.Vector3.TransformCoordinates(pointerGroup.getAbsolutePosition(), invTiltWorld);
+    return Math.atan2(pointerPosInTilt.z, pointerPosInTilt.x);
+  }
 
   // Adicionar sombras aos elementos da roda
   tiltGroup.getChildMeshes().forEach(mesh => {
@@ -118,12 +131,18 @@
   let giftAnimating = false;
 
   // === FÍSICA DO PONTEIRO ===
-  let pointerAngle = 0;        // Ângulo atual do ponteiro
-  let pointerVelocity = 0;      // Velocidade do ponteiro
-  const pointerRestAngle = -Math.PI / 2;  // Posição de descanso
-  const pointerSpringForce = 0.15;  // Força da mola
-  const pointerDamping = 0.85;      // Amortecimento
-  const tickImpulse = 0.4;          // Impulso quando bate no divisor
+  let pointerAngle = 0;           // Ângulo atual do ponteiro (rotação Z)
+  let pointerVelocity = 0;        // Velocidade angular
+  let pointerX = 0;               // Posição X do ponteiro (balanço horizontal)
+  let pointerXVelocity = 0;       // Velocidade horizontal
+  const pointerRestAngle = 0;     // Posição de descanso angular (sem rotação)
+  const pointerRestX = 0;         // Posição X de descanso
+  const pointerSpringForce = 0.18;  // Força da mola angular
+  const pointerXSpring = 0.15;    // Força da mola horizontal
+  const pointerDamping = 0.82;    // Amortecimento angular
+  const pointerXDamping = 0.85;   // Amortecimento horizontal
+  const tickImpulse = 0.15;       // Impulso angular (rotação Z)
+  const tickXImpulse = 0.06;      // Impulso horizontal (balanço para lado)
 
   // === ELEMENTOS UI ===
   const spinBtn = document.getElementById('spinBtn');
@@ -133,25 +152,35 @@
 
   // === FUNÇÕES ===
   function tickPointer() {
-    // Aplica impulso ao ponteiro (como se batesse no divisor)
-    pointerVelocity += tickImpulse * (1 + Math.random() * 0.3);  // Pequena variação
+    // Aplica impulso ao ponteiro (rotação + balanço horizontal)
+    const direction = Math.random() > 0.5 ? 1 : -1;  // Direção aleatória
+    pointerVelocity += tickImpulse * (1 + Math.random() * 0.3) * direction;
+    pointerXVelocity += tickXImpulse * (1 + Math.random() * 0.3) * direction;
   }
 
   function updatePointerPhysics() {
-    // Física de mola para retornar à posição de descanso
-    const displacement = pointerRestAngle - pointerAngle;
-    const springForce = displacement * pointerSpringForce;
-
-    pointerVelocity += springForce;
+    // Física de mola para ROTAÇÃO Z (balanço angular)
+    const angularDisplacement = pointerRestAngle - pointerAngle;
+    pointerVelocity += angularDisplacement * pointerSpringForce;
     pointerVelocity *= pointerDamping;
     pointerAngle += pointerVelocity;
 
-    // Limitar o ângulo máximo
-    const maxDeflection = 0.5;  // Máximo deslocamento
-    pointerAngle = Math.max(pointerRestAngle - maxDeflection,
-      Math.min(pointerRestAngle + maxDeflection, pointerAngle));
+    // Física de mola para POSIÇÃO X (balanço horizontal)
+    const xDisplacement = pointerRestX - pointerX;
+    pointerXVelocity += xDisplacement * pointerXSpring;
+    pointerXVelocity *= pointerXDamping;
+    pointerX += pointerXVelocity;
 
-    arrow.rotation.x = pointerAngle;
+    // Limitar ângulo máximo
+    const maxDeflection = 0.3;
+    pointerAngle = Math.max(-maxDeflection, Math.min(maxDeflection, pointerAngle));
+
+    // Limitar balanço horizontal máximo
+    pointerX = Math.max(-0.1, Math.min(0.1, pointerX));
+
+    // Aplicar ao ponteiro
+    arrow.rotation.z = pointerAngle;  // Rotação no eixo Z (balanço)
+    arrow.position.x = arrowBaseX + pointerX;  // Balanço horizontal
   }
 
   function showPrize(label) {
@@ -176,7 +205,14 @@
 
     const winnerIndex = Math.floor(Math.random() * prizes.length);
     const targetSectorAngle = winnerIndex * sectorAngle + sectorAngle / 2;
-    targetRotation = currentRotation + (Math.PI * 2 * animConfig.extraSpins) + (Math.PI * 2 - targetSectorAngle);
+
+    // Mantém compatibilidade (variável não é usada pela física atual), mas calcula
+    // com o mesmo referencial do ponteiro para evitar desalinhamentos futuros.
+    const pointerAngleWheelSpace = getPointerAngleWheelSpace();
+    const desiredMod = normalizeAngle(pointerAngleWheelSpace - targetSectorAngle);
+    const currentMod = normalizeAngle(currentRotation);
+    const deltaMod = normalizeAngle(desiredMod - currentMod);
+    targetRotation = currentRotation + (TAU * animConfig.extraSpins) + deltaMod;
 
     velocity = animConfig.initialVelocity;
   });
@@ -197,27 +233,34 @@
   let snapTarget = 0;
   let bounceVelocity = 0;
 
-  // O ponteiro está no topo/frente da roleta
-  // Precisamos descobrir qual setor está ali baseado na rotação
-  const pointerOffset = 2; // Ajuste empírico para alinhar setor com ponteiro
+  // O ponteiro está no topo da roleta (Z negativo)
+  // Calcular setor baseado na rotação da roda - SIMPLES
+  const POINTER_OFFSET = 0;  // Ajustar se necessário para alinhar
 
-  // Calcular em qual setor o ponteiro está
   function getCurrentSectorIndex() {
-    const normalizedRotation = ((currentRotation % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-    const rawIndex = Math.floor(normalizedRotation / sectorAngle);
-    return (prizes.length - rawIndex + pointerOffset) % prizes.length;
+    // Normalizar rotação para 0-2PI
+    const rotation = normalizeAngle(currentRotation);
+    // Calcular índice do setor
+    const rawIndex = Math.floor(rotation / sectorAngle);
+    // Aplicar offset e garantir que fica no range válido
+    return (prizes.length - rawIndex + POINTER_OFFSET) % prizes.length;
   }
 
   // Calcular rotação para centralizar um setor no ponteiro
   function getSnapRotationForCurrentSector() {
-    // Pegar setor atual e calcular a rotação que centraliza
-    const normalizedRotation = ((currentRotation % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-    const currentSectorStart = Math.floor(normalizedRotation / sectorAngle) * sectorAngle;
-    const currentSectorCenter = currentSectorStart + sectorAngle / 2;
+    const sectorIndex = getCurrentSectorIndex();
+    // Centro do setor atual
+    const sectorCenter = (prizes.length - sectorIndex + POINTER_OFFSET) * sectorAngle + sectorAngle / 2;
 
     // Manter rotações completas
-    const fullRotations = Math.floor(currentRotation / (Math.PI * 2)) * Math.PI * 2;
-    return fullRotations + currentSectorCenter;
+    const fullRotations = Math.floor(currentRotation / TAU) * TAU;
+    let snapTarget = fullRotations + normalizeAngle(sectorCenter);
+
+    // Garantir que é o snap mais próximo
+    if (snapTarget - currentRotation > Math.PI) snapTarget -= TAU;
+    if (currentRotation - snapTarget > Math.PI) snapTarget += TAU;
+
+    return snapTarget;
   }
 
   // === LOOP PRINCIPAL DE ANIMAÇÃO ===

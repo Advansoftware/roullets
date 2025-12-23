@@ -268,66 +268,8 @@ function createTextPlane(scene, text) {
   return plane;
 }
 
-// Criar ponteiro/seta premium no topo da roleta
-function createPointer(scene, config) {
-  const pointerGroup = new BABYLON.TransformNode("pointerGroup", scene);
-
-  // Base/suporte do ponteiro (pino)
-  const pin = BABYLON.MeshBuilder.CreateCylinder("pin", {
-    diameter: 0.15,
-    height: 0.4,
-    tessellation: 16
-  }, scene);
-  pin.position.y = 0.2;
-  pin.parent = pointerGroup;
-
-  // Material dourado
-  const pointerMaterial = new BABYLON.PBRMaterial("pointerMat", scene);
-  pointerMaterial.albedoColor = new BABYLON.Color3(1, 0.84, 0);
-  pointerMaterial.metallic = 0.95;
-  pointerMaterial.roughness = 0.08;
-  pointerMaterial.emissiveColor = new BABYLON.Color3(1, 0.6, 0);
-  pointerMaterial.emissiveIntensity = 0.3;
-  pin.material = pointerMaterial;
-
-  // Seta triangular apontando para baixo
-  const arrowShape = [
-    new BABYLON.Vector3(0, 0, 0.5),      // Ponta (apontando para frente/baixo)
-    new BABYLON.Vector3(-0.25, 0, -0.2), // Esquerda
-    new BABYLON.Vector3(0.25, 0, -0.2),  // Direita
-    new BABYLON.Vector3(0, 0, 0.5)       // Fechar
-  ];
-
-  const arrow = BABYLON.MeshBuilder.CreatePolygon("arrow", {
-    shape: arrowShape,
-    depth: 0.12,
-    sideOrientation: BABYLON.Mesh.DOUBLESIDE
-  }, scene);
-
-  arrow.rotation.x = -Math.PI / 2;
-  arrow.position.y = 0;
-  arrow.position.z = 0.1;
-  arrow.parent = pointerGroup;
-  arrow.material = pointerMaterial;
-
-  // Bolinha decorativa no topo
-  const ball = BABYLON.MeshBuilder.CreateSphere("ball", {
-    diameter: 0.2
-  }, scene);
-  ball.position.y = 0.45;
-  ball.parent = pointerGroup;
-  ball.material = pointerMaterial;
-
-  // Posicionar no topo da roleta (eixo Z negativo = frente da câmera)
-  const radius = config ? config.radius : 2.5;
-  pointerGroup.position = new BABYLON.Vector3(0, 0.5, -(radius + 0.3));
-
-  return { pointerGroup, arrow };
-}
-
 // Exportar para uso global
 window.WheelBuilder = {
   createWheel,
-  createPointer,
   createTextPlane
 };
