@@ -1,12 +1,12 @@
 const prizes = [
-  { label: "SUPER RECOMPENSA", icon: "fa-coins", color: "#eab308", textColor: "#fff" },
-  { label: "SURPRESA ESPECIAL", icon: "fa-gift", color: "#9a3412", textColor: "#fff" },
-  { label: "PONTOS TRIPLOS", icon: "fa-star", color: "#0f766e", textColor: "#fff" },
-  { label: "R$ 100 BÔNUS", icon: "fa-gem", color: "#9a3412", textColor: "#fff" },
-  { label: "BRINDE EXCLUSIVO", icon: "fa-gift", color: "#0f766e", textColor: "#fff" },
-  { label: "500 MOEDAS", icon: "fa-trophy", color: "#9a3412", textColor: "#fff" },
-  { label: "GIRO GRÁTIS VIP", icon: "fa-dice", color: "#0f766e", textColor: "#fff" },
-  { label: "PRÊMIO ESPECIAL", icon: "fa-award", color: "#9a3412", textColor: "#fff" }
+  { label: "SUPER RECOMPENSA", icon: "fa-coins", color: "#fcd34d", textColor: "#fff" },
+  { label: "SURPRESA ESPECIAL", icon: "fa-gift", color: "#7f1d1d", textColor: "#fff" },
+  { label: "PONTOS TRIPLOS", icon: "fa-star", color: "#fb923c", textColor: "#fff" },
+  { label: "R$ 100 BÔNUS", icon: "fa-gem", color: "#7f1d1d", textColor: "#fff" },
+  { label: "BRINDE EXCLUSIVO", icon: "fa-gift", color: "#fb923c", textColor: "#fff" },
+  { label: "500 MOEDAS", icon: "fa-trophy", color: "#7f1d1d", textColor: "#fff" },
+  { label: "GIRO GRÁTIS VIP", icon: "fa-dice", color: "#fb923c", textColor: "#fff" },
+  { label: "PRÊMIO ESPECIAL", icon: "fa-award", color: "#7f1d1d", textColor: "#fff" }
 ];
 
 const wheelFrame = document.querySelector('.wheel-frame');
