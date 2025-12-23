@@ -672,10 +672,25 @@ body::before {
 .back-button:hover { background: rgba(35, 134, 54, 0.8); color: #fff; transform: translateX(-3px); }
 .back-button svg { width: 16px; height: 16px; }
 
-/* Layout K - Roleta 500px, ícone grande + texto */
+
+
+
+/* Layout M - Roleta 500px, texto grande usando mais espaço */
+.wheel-sector {
+    padding-left: 30px !important;
+}
+.sector-content {
+    width: 140px !important;
+}
 .sector-content i {
-    font-size: 2rem !important;
+    font-size: 1.4rem !important;
+    margin-bottom: 3px !important;
 }
 .sector-content .sector-label {
-    font-size: 1.1rem !important;
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    text-align: center !important;
 }
