@@ -1,5 +1,6 @@
 // pointer.js - Indicador/Ponteiro da Roleta
 
+// === CRIAÇÃO DO MODELO 3D ===
 function createPointer(scene, config) {
   const pointerGroup = new BABYLON.TransformNode("pointerGroup", scene);
 
@@ -51,22 +52,78 @@ function createPointer(scene, config) {
   }, scene);
 
   // Rotacionar para que a ponta aponte para a TELA (câmera)
-  // Sem rotação = triângulo no plano XZ com ponta em Z+
-  // Queremos ponta em Z- (para câmera), então rotação Y = PI
-  arrow.rotation.y = Math.PI;  // Ponta para a câmera
-  arrow.position.y = 0.3;      // Conectado ao mastro
-  arrow.position.z = 0.15;     // Um pouco para frente
+  arrow.rotation.y = Math.PI;
+  arrow.position.y = 0.3;
+  arrow.position.z = 0.15;
   arrow.parent = pointerGroup;
   arrow.material = plasticMaterial;
 
-  // Posicionar ponteiro na borda da roleta (um pouco mais para trás)
+  // Posicionar ponteiro na borda da roleta
   const radius = config ? config.radius : 2.5;
   pointerGroup.position = new BABYLON.Vector3(0, 0.55, -(radius + 0.1));
 
   return { pointerGroup, arrow };
 }
 
+// === FÍSICA DO PONTEIRO (colisão com divisores) ===
+function createPointerPhysics(arrow, sectorAngle) {
+  const TAU = Math.PI * 2;
+  const normalizeAngle = (angle) => ((angle % TAU) + TAU) % TAU;
+
+  // Estado da física
+  let pointerSwing = 0;
+  let pointerSwingVelocity = 0;
+
+  // Configurações
+  const config = {
+    restSwing: 0,
+    springForce: 0.08,
+    damping: 0.92,
+    contactZone: 0.15,
+    pushStrength: 0.4
+  };
+
+  // Calcula força de contato baseada na rotação da roda
+  function getContactForce(currentRotation) {
+    const rotation = normalizeAngle(currentRotation);
+    const positionInSector = (rotation % sectorAngle) / sectorAngle;
+    const distToDivider = Math.min(positionInSector, 1 - positionInSector);
+
+    if (distToDivider < config.contactZone) {
+      const contactIntensity = 1 - (distToDivider / config.contactZone);
+      return contactIntensity * config.pushStrength;
+    }
+    return 0;
+  }
+
+  // Atualiza física do ponteiro
+  function update(currentRotation) {
+    const contactForce = getContactForce(currentRotation);
+
+    if (contactForce > 0) {
+      // Metal em contato - ponteiro segue
+      pointerSwing = -contactForce;
+      pointerSwingVelocity = 0;
+    } else {
+      // Sem contato - mola traz de volta
+      const displacement = config.restSwing - pointerSwing;
+      pointerSwingVelocity += displacement * config.springForce;
+      pointerSwingVelocity *= config.damping;
+      pointerSwing += pointerSwingVelocity;
+    }
+
+    // Limitar rotação
+    pointerSwing = Math.max(-0.5, Math.min(0.05, pointerSwing));
+
+    // Aplicar ao ponteiro
+    arrow.rotation.y = Math.PI + pointerSwing;
+  }
+
+  return { update };
+}
+
 // Exportar para uso global
 window.PointerBuilder = {
-  createPointer
+  createPointer,
+  createPointerPhysics
 };

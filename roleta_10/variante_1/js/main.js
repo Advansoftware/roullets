@@ -130,39 +130,14 @@
   let lastSector = -1;
   let giftAnimating = false;
 
-  // === FÍSICA DO PONTEIRO ===
-  let pointerSwing = 0;           // Rotação Y do ponteiro (balanço para o lado)
-  let pointerSwingVelocity = 0;   // Velocidade da rotação
-  const pointerRestSwing = 0;     // Posição de descanso (sem rotação)
-  const pointerSwingSpring = 0.15;  // Força da mola
-  const pointerSwingDamping = 0.88; // Amortecimento
-  const tickSwingImpulse = 0.15;    // Impulso quando bate no ferro
+  // === FÍSICA DO PONTEIRO (módulo separado) ===
+  const pointerPhysics = window.PointerBuilder.createPointerPhysics(arrow, sectorAngle);
 
   // === ELEMENTOS UI ===
   const spinBtn = document.getElementById('spinBtn');
   const prizePopup = document.getElementById('prizePopup');
   const prizeValue = document.getElementById('prizeValue');
   const closePopup = document.getElementById('closePopup');
-
-  // === FUNÇÕES ===
-  function tickPointer() {
-    // Ferro empurra ponteiro para o lado (rotação negativa no Y)
-    pointerSwingVelocity -= tickSwingImpulse * (0.8 + Math.random() * 0.4);
-  }
-
-  function updatePointerPhysics() {
-    // Física de mola para ROTAÇÃO Y (balanço para o lado)
-    const swingDisplacement = pointerRestSwing - pointerSwing;
-    pointerSwingVelocity += swingDisplacement * pointerSwingSpring;
-    pointerSwingVelocity *= pointerSwingDamping;
-    pointerSwing += pointerSwingVelocity;
-
-    // Limitar rotação máxima
-    pointerSwing = Math.max(-0.4, Math.min(0.1, pointerSwing));
-
-    // Aplicar ao ponteiro (rotação Y = girar para o lado)
-    arrow.rotation.y = Math.PI + pointerSwing;  // PI base + balanço
-  }
 
   function showPrize(label) {
     prizeValue.textContent = label;
@@ -254,13 +229,6 @@
       currentRotation += velocity;
       wheelGroup.rotation.y = currentRotation;
 
-      // Efeito tick ao mudar de setor
-      const currentSector = getCurrentSectorIndex();
-      if (currentSector !== lastSector) {
-        tickPointer();
-        lastSector = currentSector;
-      }
-
       // Verificar se velocidade está baixa o suficiente para snap
       if (velocity < 0.02) {
         isSpinning = false;
@@ -298,13 +266,6 @@
       // Rotação lenta em idle (apenas se não ganhou prêmio)
       wheelGroup.rotation.y += animConfig.idleSpeed;
       currentRotation = wheelGroup.rotation.y;
-
-      // Efeito tick também no idle - cada vez que passa por um divisor
-      const currentSector = getCurrentSectorIndex();
-      if (currentSector !== lastSector) {
-        tickPointer();
-        lastSector = currentSector;
-      }
     }
 
     // Animação das luzes (efeito marquee)
@@ -316,7 +277,7 @@
     });
 
     // Atualizar física do ponteiro (sempre, para retorno suave)
-    updatePointerPhysics();
+    pointerPhysics.update(currentRotation);
 
     // Animação sutil das luzes de cena
     goldLight.intensity = 0.5 + Math.sin(time * 2) * 0.15;
