@@ -246,16 +246,30 @@
 
       // Se ainda tem velocidade ou está longe do centro
       if (Math.abs(diff) > 0.0005 || Math.abs(bounceVelocity) > 0.0005) {
-        // Mola MUITO suave para parecer pesado
-        // A força da mola "puxa" de volta para o centro
-        // Se bounceVelocity > 0 (indo pra frente), a mola vai freando
-        // Se bounceVelocity < 0 (voltando), a mola vai acelerando pro centro
-
-        const springForce = diff * 0.02;  // Mola fraca = movimento pesado
+        // Mola um pouco mais forte para não ficar balançando muito tempo
+        // Mola ajustada para puxar com força suficiente para passar do centro na volta
+        const springForce = diff * 0.04;
         bounceVelocity += springForce;
-        bounceVelocity *= 0.98; // Pouco atrito para manter o balanço lento
+
+        // Atrito menor (0.96) durante o balanço para permitir que passe do centro (overshoot na volta)
+        let damping = 0.96;
+
+        // Se estiver muito perto do centro e devagar, freia forte ("rapidamente alinhar")
+        // Isso faz com que depois de oscilar, ela pare de repente no centro
+        if (Math.abs(diff) < 0.005 && Math.abs(bounceVelocity) < 0.005) {
+          damping = 0.85;
+        }
+
+        bounceVelocity *= damping;
 
         currentRotation += bounceVelocity;
+
+        // Mostrar prêmio assim que passar pelo centro (ou estiver bem perto) na primeira volta
+        if (!prizeWon && Math.abs(diff) < 0.01) {
+          const winningIndex = getCurrentSectorIndex();
+          showPrize(prizes[winningIndex].label);
+          // prizeWon = true é setado dentro de showPrize
+        }
 
         // Proteção suave para não sair do setor
         if (Math.abs(diff) > sectorAngle * 0.48) {
@@ -269,9 +283,11 @@
         wheelGroup.rotation.y = currentRotation;
         isSnapping = false;
 
-        // Determinar prêmio final
-        const winningIndex = getCurrentSectorIndex();
-        showPrize(prizes[winningIndex].label);
+        // Garantir que mostra se não mostrou antes
+        if (!prizeWon) {
+          const winningIndex = getCurrentSectorIndex();
+          showPrize(prizes[winningIndex].label);
+        }
       }
     } else if (!prizeWon) {
       // Rotação lenta em idle (apenas se não ganhou prêmio)
