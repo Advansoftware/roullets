@@ -179,6 +179,8 @@
 
     // Permitir rotação idle novamente (continua de onde parou)
     prizeWon = false;
+    isSnapping = false; // Garantir que não está snapando
+    bounceVelocity = 0; // Zerar velocidade de bounce
 
     spinBtn.disabled = false;
     spinBtn.textContent = '🎲 GIRAR';
@@ -268,7 +270,14 @@
         if (!prizeWon && Math.abs(diff) < 0.01) {
           const winningIndex = getCurrentSectorIndex();
           showPrize(prizes[winningIndex].label);
-          // prizeWon = true é setado dentro de showPrize
+          // prizeWon já é setado para true dentro de showPrize
+
+          // FORÇAR PARADA DA FÍSICA SE O USUÁRIO QUER "ROLETAR PARADA"
+          // Se o usuário quer que pare assim que mostrar o prêmio:
+          isSnapping = false; // Para a animação de snap
+          currentRotation = snapTarget; // Força para o centro exato
+          wheelGroup.rotation.y = currentRotation;
+          return; // Sai do loop
         }
 
         // Proteção suave para não sair do setor
