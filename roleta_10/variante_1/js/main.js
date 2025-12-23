@@ -131,12 +131,12 @@
   let giftAnimating = false;
 
   // === FÍSICA DO PONTEIRO ===
-  let pointerZ = 0;               // Posição Z do ponteiro (empurrar para trás)
-  let pointerZVelocity = 0;       // Velocidade no eixo Z
-  const pointerRestZ = 0;         // Posição Z de descanso
-  const pointerZSpring = 0.12;    // Força da mola
-  const pointerZDamping = 0.85;   // Amortecimento
-  const tickZImpulse = 0.08;      // Impulso para trás quando bate no ferro
+  let pointerSwing = 0;           // Rotação Y do ponteiro (balanço para o lado)
+  let pointerSwingVelocity = 0;   // Velocidade da rotação
+  const pointerRestSwing = 0;     // Posição de descanso (sem rotação)
+  const pointerSwingSpring = 0.15;  // Força da mola
+  const pointerSwingDamping = 0.88; // Amortecimento
+  const tickSwingImpulse = 0.15;    // Impulso quando bate no ferro
 
   // === ELEMENTOS UI ===
   const spinBtn = document.getElementById('spinBtn');
@@ -146,22 +146,22 @@
 
   // === FUNÇÕES ===
   function tickPointer() {
-    // Empurra ponteiro para TRÁS (Z negativo) quando bate no divisor
-    pointerZVelocity -= tickZImpulse * (1 + Math.random() * 0.3);
+    // Ferro empurra ponteiro para o lado (rotação negativa no Y)
+    pointerSwingVelocity -= tickSwingImpulse * (0.8 + Math.random() * 0.4);
   }
 
   function updatePointerPhysics() {
-    // Física de mola para POSIÇÃO Z (empurrar para trás e voltar)
-    const zDisplacement = pointerRestZ - pointerZ;
-    pointerZVelocity += zDisplacement * pointerZSpring;
-    pointerZVelocity *= pointerZDamping;
-    pointerZ += pointerZVelocity;
+    // Física de mola para ROTAÇÃO Y (balanço para o lado)
+    const swingDisplacement = pointerRestSwing - pointerSwing;
+    pointerSwingVelocity += swingDisplacement * pointerSwingSpring;
+    pointerSwingVelocity *= pointerSwingDamping;
+    pointerSwing += pointerSwingVelocity;
 
-    // Limitar movimento máximo (só para trás)
-    pointerZ = Math.max(-0.15, Math.min(0, pointerZ));
+    // Limitar rotação máxima
+    pointerSwing = Math.max(-0.4, Math.min(0.1, pointerSwing));
 
-    // Aplicar ao ponteiro
-    arrow.position.z = arrowBaseZ + pointerZ;  // Empurrar para trás
+    // Aplicar ao ponteiro (rotação Y = girar para o lado)
+    arrow.rotation.y = Math.PI + pointerSwing;  // PI base + balanço
   }
 
   function showPrize(label) {
