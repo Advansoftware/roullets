@@ -129,6 +129,7 @@
   let velocity = 0;
   let lastSector = -1;
   let giftAnimating = false;
+  let targetRadius = 9; // Zoom inicial (afastado)
 
   // === FÍSICA DO PONTEIRO (módulo separado) ===
   const pointerPhysics = window.PointerBuilder.createPointerPhysics(arrow, sectorAngle);
@@ -158,6 +159,7 @@
     spinBtn.disabled = true;
     spinBtn.textContent = '...';
     lastSector = -1;
+    targetRadius = 5.5; // Zoom IN ao girar
 
     const winnerIndex = Math.floor(Math.random() * prizes.length);
     const targetSectorAngle = winnerIndex * sectorAngle + sectorAngle / 2;
@@ -181,6 +183,7 @@
     prizeWon = false;
     isSnapping = false; // Garantir que não está snapando
     bounceVelocity = 0; // Zerar velocidade de bounce
+    targetRadius = 9; // Zoom OUT ao resgatar (gradual via renderLoop)
 
     spinBtn.disabled = false;
     spinBtn.textContent = '🎲 GIRAR';
@@ -311,6 +314,13 @@
         stud.material.emissiveIntensity = intensity;
       }
     });
+
+    // === ANIMAÇÃO DE ZOOM DA CÂMERA ===
+    // Interpolação suave (lerp) para o raio alvo
+    const zoomSpeed = 0.05; // Ajuste a velocidade do zoom
+    if (camera && Math.abs(camera.radius - targetRadius) > 0.01) {
+      camera.radius += (targetRadius - camera.radius) * zoomSpeed;
+    }
 
     // Atualizar física do ponteiro (sempre, para retorno suave)
     pointerPhysics.update(currentRotation);
